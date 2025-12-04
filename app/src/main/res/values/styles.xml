@@ -1,3 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="buttonStyle1">
+        <item name="android:padding">22dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">#2196F3</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+    <style name="buttonStyle2">
+        <item name="android:padding">20dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">#2196F3</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">30sp</item>
+    </style>
+
 </resources>
+
