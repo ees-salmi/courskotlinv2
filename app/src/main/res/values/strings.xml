@@ -2,4 +2,9 @@
     <string name="app_name">helloword</string>
     <string name="button1">1</string>
     <string name="button2">clicker</string>
+    <string name="choix1">Data class</string>
+    <string name="choix2">enum class</string>
+    <string name="choix3">interfaces</string>
+    <string name="article_text">www.google.com</string>
+    <string name="pop_corn">pop corn</string>
 </resources>

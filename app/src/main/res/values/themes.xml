@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Helloword" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Helloword" parent="Theme.Material3.DayNight.NoActionBar" />
     <style name="buttonStyle" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@color/teal_200</item>
         <item name="android:textSize">40dp</item>

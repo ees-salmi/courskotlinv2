@@ -11,13 +11,162 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.compose.runtime.setValue
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.my_header)
+        setContent{myText("clicker ici")}
+    }
+
+}
+
+@Composable
+fun myText(text : String){
+    Text(
+        text = text,
+        color = Color.Green,
+        fontSize = 28.sp,
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier
+            .padding(all = 20.dp)
+            .background(Color.DarkGray)
+            .padding(20.dp)
+    )
+}
+@Composable
+fun myButton(){
+    FloatingActionButton(
+        onClick = lambda,
+        content = {Text("click here", fontSize=30.sp)},
+        containerColor = Color.DarkGray,
+        modifier = Modifier.padding(30.dp)
+        //.size(80.dp,30.dp)
+    )
+}
+
+@Composable
+fun myButtonText(nom:String,age:Int){
+    Text(
+        text="clcik here",
+        color = Color.Green,
+        fontSize = 18.sp,
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Thin,
+        modifier = Modifier
+            .padding(all = 20.dp)
+            .background(Color.DarkGray)
+            .padding(20.dp)
+    )
+}
+val lambda = { -> print("hello")}
+fun prin(){
+    print("bonjour")
+}
+
+@Composable
+fun MyInput(text:String,value:String,onChangeValue : (String) -> Unit ) {
+
+    TextField(
+        value = value,
+        onValueChange = onChangeValue,
+        label = { Text("Tapez votre $text") },
+        placeholder = {Text("donner votre $text")}
+    )
+
+}
+
+@Composable
+fun myInput(){
+    var textValue by remember { mutableStateOf("") }
+    TextField(
+        value = textValue,
+        readOnly = false,
+        onValueChange = { newValue:String ->
+            textValue = newValue
+        },
+        onValueChange = {},
+        label = { Text("nom") },
+        placeholder = {Text("donner votre nom")},
+        modifier= Modifier.padding(5.dp).fillMaxWidth()
+        //.fill
+    )
+}
+@Composable
+fun myColumn(){
+    var nom by remember { mutableStateOf("") }
+    var prenom by remember { mutableStateOf("") }
+    var age by remember { mutableStateOf("") }
+    Column(
+        modifier = Modifier.fillMaxSize().padding(20.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        MyInput("nom",nom,{ nom = it })
+        MyInput("prenom", prenom, {prenom = it})
+        MyInput("age", age, {age = it})
+        myButtonText(nom,age.toInt())
+    }
+}
+
+
+@Composable
+fun MyScreen() {
+    Scaffold(
+        topBar = { TopAppBar(title = { Text("Mon Application") }) },
+        floatingActionButton = {
+            FloatingActionButton(onClick = { /* Action */ }) {
+                Icon(Icons.Default.Add, contentDescription = "Ajouter")
+            }
+        },
+        bottomBar = {
+            BottomAppBar { /* Navigation ici */ }
+        }
+    ) { innerPadding ->
+
+        Column(modifier = Modifier.padding(innerPadding)) {
+            Text("Contenu de l'écran")
+        }
+    }
+}
+        /* code pour radio button
         var note = 0.0
         var rb1 = findViewById<RadioButton>(R.id.radioButton4)
         var affichage = findViewById<TextView>(R.id.affichgecheckbutton)
@@ -31,18 +180,12 @@ class MainActivity : ComponentActivity() {
         var mygroup = findViewById<RadioGroup>(R.id.radioGroup)
         mygroup.setOnCheckedChangeListener { groupe, checkedid ->
             when(checkedid) {
-                R.id.radioButton4 -> {note+=2}
+                R.id.radioButton4 -> {note+=2 }
                 R.id.radioButton5 -> {affichage.text = "reponse fausee"}
                 R.id.radioButton6 -> {affichage.text = "reponse fausee"}
 
             }
-        }
-
-
-
-
-
-
+        }*/
 
 
 
@@ -55,7 +198,7 @@ class MainActivity : ComponentActivity() {
 
         val auto = findViewById<AutoCompleteTextView>(R.id.autoCompleteTextView)
         auto.setAdapter(adapter)
-        auto.threshold = 3*/
+        auto.threshold = 2*/
 
 
 
@@ -200,6 +343,4 @@ class MainActivity : ComponentActivity() {
         /*val btn1 = findViewById<Button>(R.id.btn_1)
         val btn2 = findViewById<Button>(R.id.btn_2)
         btn1.setOnClickListener { btn2.text=2.toString() }*/
-    }
 
-}
