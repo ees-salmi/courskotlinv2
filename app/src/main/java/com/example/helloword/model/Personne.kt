@@ -1,7 +1,4 @@
-package com.example.helloword
-
-import android.R
-
+package com.example.helloword.model
 
 class Personne(val age:Int,val nom:String, val prenom:String){
 
@@ -13,9 +10,4 @@ class Personne(val age:Int,val nom:String, val prenom:String){
         return this
     }
 
-}
-
-fun main(){
-    val p = Personne(12,"AMine")
-    p.ajouter().supperson(12).ajouter()
 }

@@ -15,23 +15,36 @@ import androidx.compose.runtime.setValue
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,16 +59,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.helloword.components.myBar
+import com.example.helloword.components.myTopBar
+import com.example.helloword.ecrans.CardAvecImage
+import com.example.helloword.ecrans.MainScreen
+import com.example.helloword.ecrans.LoginOut
+import com.example.helloword.ecrans.LoginScreen
+import com.example.helloword.model.Pc
 
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent{myText("clicker ici")}
+        setContent{MainScreen()}
     }
 
 }
-
+// 9 present 2512
 @Composable
 fun myText(text : String){
     Text(
@@ -71,10 +91,12 @@ fun myText(text : String){
     )
 }
 @Composable
+fun text(){Text("clicker ici")}
+@Composable
 fun myButton(){
     FloatingActionButton(
         onClick = lambda,
-        content = {Text("click here", fontSize=30.sp)},
+        content = { Text("clicker ici") },
         containerColor = Color.DarkGray,
         modifier = Modifier.padding(30.dp)
         //.size(80.dp,30.dp)
@@ -113,28 +135,56 @@ fun MyInput(text:String,value:String,onChangeValue : (String) -> Unit ) {
 }
 
 @Composable
-fun myInput(){
-    var textValue by remember { mutableStateOf("") }
+fun myInput(input:String, onChangeValue: (String) -> Unit){
     TextField(
-        value = textValue,
-        readOnly = false,
-        onValueChange = { newValue:String ->
-            textValue = newValue
-        },
-        onValueChange = {},
+        value = input,
+        onValueChange = onChangeValue,
         label = { Text("nom") },
         placeholder = {Text("donner votre nom")},
-        modifier= Modifier.padding(5.dp).fillMaxWidth()
-        //.fill
+        modifier= Modifier
+            .padding(5.dp)
+            .fillMaxWidth()
     )
 }
 @Composable
-fun myColumn(){
+fun myBox(modifier: Modifier = Modifier){
+    Box(
+        modifier = Modifier.padding(20.dp)
+
+    ){
+
+    }
+}
+@Composable
+fun MyBoxes(modifier: Modifier){
+    Row(modifier = Modifier.padding(10.dp)){
+        Box(modifier = Modifier
+            .background(Color.Red)
+            .border(3.dp, Color.Blue)
+            .weight(1f)
+            .height(200.dp) )
+        Box(modifier = Modifier
+            .background(Color.Cyan)
+            .border(3.dp, Color.Blue)
+            .weight(2f)
+            .height(200.dp))
+        Box(modifier = Modifier
+            .background(Color.Blue)
+            .border(3.dp, Color.Blue)
+            .weight(3f)
+            .height(200.dp))
+    }
+}
+@Composable
+fun myColumn(modifier : Modifier = Modifier){
+    var noms  = ""
     var nom by remember { mutableStateOf("") }
     var prenom by remember { mutableStateOf("") }
     var age by remember { mutableStateOf("") }
     Column(
-        modifier = Modifier.fillMaxSize().padding(20.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -145,27 +195,25 @@ fun myColumn(){
         myButtonText(nom,age.toInt())
     }
 }
-
-
 @Composable
-fun MyScreen() {
-    Scaffold(
-        topBar = { TopAppBar(title = { Text("Mon Application") }) },
-        floatingActionButton = {
-            FloatingActionButton(onClick = { /* Action */ }) {
-                Icon(Icons.Default.Add, contentDescription = "Ajouter")
-            }
-        },
-        bottomBar = {
-            BottomAppBar { /* Navigation ici */ }
-        }
-    ) { innerPadding ->
+fun MonTitre(){
+    Row() {
+        Text("Commandes",
+            fontWeight = FontWeight.SemiBold,
+            fontFamily = FontFamily.Serif,
+            fontSize = 24.sp
+        )
 
-        Column(modifier = Modifier.padding(innerPadding)) {
-            Text("Contenu de l'écran")
-        }
     }
+
 }
+@Composable
+fun MonIcon(){
+    Icon(Icons.Default.Menu, contentDescription = "menu")
+}
+
+
+
         /* code pour radio button
         var note = 0.0
         var rb1 = findViewById<RadioButton>(R.id.radioButton4)
