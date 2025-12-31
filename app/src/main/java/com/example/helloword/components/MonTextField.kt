@@ -14,9 +14,8 @@ fun MyTextField(text:String,value:String,onChangeValue : (String) -> Unit, modif
     OutlinedTextField(
         value = value,
         onValueChange = onChangeValue,
-        label = { Text("Tapez votre $text") },
+        label = {Text(text)},
         placeholder = {Text("donner votre $text")},
         modifier = modifier
     )
-
 }

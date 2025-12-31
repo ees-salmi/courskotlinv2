@@ -29,6 +29,6 @@ fun MainScreen() {
             BottomAppBar {  }
         }
     ) { innerpadding ->
-        LoginScreen(Modifier.fillMaxWidth().padding(innerpadding))
+        LoginScreen(Modifier.padding(innerpadding))
     }
 }
