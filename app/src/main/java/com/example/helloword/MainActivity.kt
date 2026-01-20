@@ -86,19 +86,27 @@ import com.example.helloword.model.Stagiaire
 
 
 class MainActivity : ComponentActivity() {
+    object routes{
+        val route1 = "ecran1"
+        val route2 = "ecran2"
+        val route3 = "ecran3"
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent{
             val controller = rememberNavController()
            NavHost(
                 navController = controller,
-                startDestination = "ecran1"
+                startDestination = routes.route1
            ){
-               composable("ecran1") {
+               composable(routes.route1) {
                    Ecran1(controller)
                }
                composable("ecran2") {
                    Ecran2(controller)
+               }
+               composable("ecran3") {
+                   Ecran3(controller)
                }
            }
         }
@@ -122,9 +130,28 @@ fun Ecran1(controller: NavHostController){
 }
 @Composable
 fun Ecran2(controller: NavHostController){
-    Text("vous etes dans le deuxieme ecran")
-    OutlinedButton(onClick = {controller.navigate("ecran1")}) {
-        Text("retour")
+    Column( modifier = Modifier
+        .fillMaxSize()
+        .padding(20.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally) {
+        Text("vous etes dans le deuxieme ecran")
+        OutlinedButton(onClick = { controller.navigate("ecran3") }) {
+            Text("retour")
+        }
+    }
+}
+@Composable
+fun Ecran3(controller: NavHostController){
+    Column( modifier = Modifier
+        .fillMaxSize()
+        .padding(20.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally) {
+        Text("vous etes dans le troisieme ecran")
+        OutlinedButton(onClick = { controller.popBackStack() }) {
+            Text("retour")
+        }
     }
 }
 
