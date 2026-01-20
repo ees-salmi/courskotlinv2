@@ -33,7 +33,7 @@ fun myCardImage(){
     }
 }
 @Composable
-fun CardAvecImage(titre:String="titre",description:String="description", modifier: Modifier= Modifier) {
+fun CardAvecImage(drawable : Int,titre:String="titre",description:String="description", modifier: Modifier= Modifier) {
     Card(
         modifier = modifier
             .padding(16.dp)
@@ -42,7 +42,7 @@ fun CardAvecImage(titre:String="titre",description:String="description", modifie
     ) {
         Column {
             Image(
-                painter = painterResource(id = R.drawable.cap),
+                painter = painterResource(id = drawable),
                 contentDescription = "Description de l'image",
                 modifier = Modifier
                     .fillMaxWidth()

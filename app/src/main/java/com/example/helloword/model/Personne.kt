@@ -11,3 +11,7 @@ class Personne(val age:Int,val nom:String, val prenom:String){
     }
 
 }
+class Stagiaire(val code:String, val nom:String){
+
+
+}

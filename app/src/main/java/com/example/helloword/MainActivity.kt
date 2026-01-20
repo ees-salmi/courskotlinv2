@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.compose.runtime.setValue
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -25,6 +26,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -34,10 +36,12 @@ import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -51,7 +55,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -59,25 +66,162 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.helloword.components.myBar
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.helloword.comman.DrawEmoji
+//import com.example.helloword.comman.DrawRect
+//import com.example.helloword.components.MonText
+import com.example.helloword.components.*
 import com.example.helloword.components.myTopBar
 import com.example.helloword.ecrans.CardAvecImage
+import com.example.helloword.ecrans.FormulaireXML
 import com.example.helloword.ecrans.MainScreen
 import com.example.helloword.ecrans.LoginOut
 import com.example.helloword.ecrans.LoginScreen
 import com.example.helloword.model.Pc
+import com.example.helloword.model.Personne
+import com.example.helloword.model.Stagiaire
 
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent{MainScreen()}
+        setContent{
+            val controller = rememberNavController()
+           NavHost(
+                navController = controller,
+                startDestination = "ecran1"
+           ){
+               composable("ecran1") {
+                   Ecran1(controller)
+               }
+               composable("ecran2") {
+                   Ecran2(controller)
+               }
+           }
+        }
     }
+
+}
+
+@Composable
+fun Ecran1(controller: NavHostController){
+    Column( modifier = Modifier
+        .fillMaxSize()
+        .padding(20.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally){
+        Text("vous etes dans premier ecran")
+        OutlinedButton(onClick = {controller.navigate("ecran2")}) {
+            Text("aller au deuxieme")
+        }
+    }
+
+}
+@Composable
+fun Ecran2(controller: NavHostController){
+    Text("vous etes dans le deuxieme ecran")
+    OutlinedButton(onClick = {controller.navigate("ecran1")}) {
+        Text("retour")
+    }
+}
+
+@Composable
+fun Affichage(){
+    var x by remember { mutableStateOf(80) }
+    var color by remember { mutableStateOf( Color.Red)}
+    val traitement = {
+        if(color == Color.Red){
+            color = Color.Green
+        }
+        else if(color == Color.Green){
+            color = Color.Yellow
+        }
+        else{
+            color = Color.Red
+        }
+
+    }
+    Text("la valeur de x = $x", fontSize = 20.sp,modifier = Modifier.padding(80.dp).background(color))
+    Button(
+        onClick = traitement,
+
+        content = {Text("clicker")},
+        modifier = Modifier.padding(120.dp)
+    )
+}
+@Composable
+fun AffichageList(){
+    var listStg : ArrayList<String> = arrayListOf()
+    listStg.add("amine")
+    listStg.add("yassine")
+    listStg.add("marwa")
+    listStg.add("tarik")
+
+    Canvas(modifier = Modifier.size(200.dp)) {
+
+        drawArc(
+            color = Color.Black,
+            startAngle = 0f,
+            sweepAngle = 180f,
+            useCenter = false,
+            topLeft = Offset(40f, 90f),
+            size = Size(120f, 60f),
+            style = Stroke(width = 6f)
+        )
+    }
+}
+
+
+@Composable
+fun AffichageConditionne(){
+    val a = 4
+    val b = 6
+    if(a > b){
+        Text("Bonjour", fontSize = 24.sp, modifier = Modifier.padding(100.dp))
+    }
+    else{
+        Text("Affichage", fontSize = 24.sp, modifier = Modifier.padding(100.dp))
+    }
+    
+    val list: ArrayList<String> = arrayListOf()
+    list.add("amine")
+    list.add("ibrahim")
+    list.add("oussama")
+    Column {
+        list.forEach { elm -> Text(elm,Modifier.padding(20.dp)) }
+    }
+
+    val liststg: ArrayList<Stagiaire> = arrayListOf()
+    val stg1 = Stagiaire("123","fakhir")
+    val stg2 = Stagiaire("125","rmoul")
+    val stg3 = Stagiaire("124","khyi")
+    liststg.add(stg1)
+    liststg.add(stg2)
+    liststg.add(stg3)
+
+    Column(modifier = Modifier.padding(0.dp,140.dp)) {
+        Row {
+            Text("Code", fontSize = 20.sp, modifier = Modifier.padding(20.dp, 0.dp))
+            Text("Nom", fontSize = 20.sp)
+        }
+        liststg.forEach { stg ->
+            Row(Modifier.padding(20.dp)) { Text(stg.code,Modifier.padding(20.dp))
+                  Text(stg.nom,Modifier.padding(20.dp))}
+        }
+
+
+    }
+
+
 
 }
 // 9 present 2512
 @Composable
-fun myText(text : String){
+fun
+        myText(text : String){
     Text(
         text = text,
         color = Color.Green,
