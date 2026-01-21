@@ -8,10 +8,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.helloword.R
 
 @Composable
-fun LoginOut(modifier: Modifier = Modifier) {
+fun LoginOut(modifier: Modifier = Modifier, controller : NavHostController) {
 
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -26,11 +27,24 @@ fun LoginOut(modifier: Modifier = Modifier) {
     ) {
         Text(text = "Formulaire d'inscription", style = MaterialTheme.typography.headlineMedium)
 
+        OutlinedTextField(
+            value = username,
+            onValueChange = { username = it },
+            label = { Text("nom") },
+            modifier = Modifier.fillMaxWidth()
+        )
 
         OutlinedTextField(
             value = username,
             onValueChange = { username = it },
-            label = { Text("Préusername") },
+            label = { Text("email") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        OutlinedTextField(
+            value = username,
+            onValueChange = { username = it },
+            label = { Text("username") },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -44,12 +58,22 @@ fun LoginOut(modifier: Modifier = Modifier) {
                 Icon(painterResource(image),"afficher") } },
             modifier = Modifier.fillMaxWidth()
         )
+        OutlinedTextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text("confiramtion password") },
+            visualTransformation = if(isVisible)  VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = { IconButton(onClick = traitement, modifier = Modifier.size(30.dp) ) {val image = if(!isVisible) R.drawable.show else R.drawable.hide
+                Icon(painterResource(image),"afficher") } },
+            modifier = Modifier.fillMaxWidth()
+        )
 
         // Bouton de validation
         Button(
             onClick = {
-                        isVisible = !isVisible
-                resultat = if(username.isEmpty() && password.isEmpty()) "donner votre username et preusername" else "bonjour $username $password"
+              controller.navigate("ecran2")
+            // isVisible = !isVisible
+                //resultat = if(username.isEmpty() && password.isEmpty()) "donner votre username et preusername" else "bonjour $username $password"
             },
             modifier = Modifier.fillMaxWidth()
         ) {

@@ -83,6 +83,7 @@ import com.example.helloword.ecrans.LoginScreen
 import com.example.helloword.model.Pc
 import com.example.helloword.model.Personne
 import com.example.helloword.model.Stagiaire
+import kotlinx.serialization.Serializable
 
 
 class MainActivity : ComponentActivity() {
@@ -91,22 +92,36 @@ class MainActivity : ComponentActivity() {
         val route2 = "ecran2"
         val route3 = "ecran3"
     }
+    @Serializable
+    data class RouteEcran3(val username: String)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent{
             val controller = rememberNavController()
+            var user = "default"
            NavHost(
                 navController = controller,
                 startDestination = routes.route1
            ){
-               composable(routes.route1) {
-                   Ecran1(controller)
+               composable("login") {
+                   LoginScreen(
+                       modifier = Modifier,
+                       controller = controller
+                   )
                }
                composable("ecran2") {
                    Ecran2(controller)
                }
-               composable("ecran3") {
-                   Ecran3(controller)
+               composable("ecran3/{username}") {
+                   /*
+                   composable<RouteEcran3> { backStackEntry ->
+        // Extraction automatique et typée
+        val destination = backStackEntry.toRoute<RouteEcran3>()
+        Ecran3(controller, username = destination.username)
+                    */
+                   backStackEntry ->
+                   val user = backStackEntry.arguments?.getString("username") ?: "valeur"
+                   Ecran3(controller, username = user)
                }
            }
         }
@@ -130,25 +145,27 @@ fun Ecran1(controller: NavHostController){
 }
 @Composable
 fun Ecran2(controller: NavHostController){
+
+    val username = "oussama"
     Column( modifier = Modifier
         .fillMaxSize()
         .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
         Text("vous etes dans le deuxieme ecran")
-        OutlinedButton(onClick = { controller.navigate("ecran3") }) {
+        OutlinedButton(onClick = { controller.navigate("ecran3/$username") }) {
             Text("retour")
         }
     }
 }
 @Composable
-fun Ecran3(controller: NavHostController){
+fun Ecran3(controller: NavHostController,username : String){
     Column( modifier = Modifier
         .fillMaxSize()
         .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
-        Text("vous etes dans le troisieme ecran")
+        Text("vous etes dans le troisieme ecran $username")
         OutlinedButton(onClick = { controller.popBackStack() }) {
             Text("retour")
         }

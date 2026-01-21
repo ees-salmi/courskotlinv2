@@ -21,6 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.helloword.components.MonText
 import com.example.helloword.components.MyButton
 import com.example.helloword.components.MyTextField
@@ -28,14 +29,14 @@ import com.example.helloword.model.User
 
 
 @Composable
-fun LoginScreen(modifier: Modifier){
+fun LoginScreen(modifier: Modifier, controller : NavHostController){
     // variables d etat
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val user1 = User(username,password)
     var results by remember { mutableStateOf("") }
     results = username
-    val  traitementAfaire = {  results = username }
+    val  traitementAfaire = {  results = username ; if(username.isNotEmpty()) {controller.navigate("ecran3")} }
 
        Column(
            verticalArrangement = Arrangement.Center,
