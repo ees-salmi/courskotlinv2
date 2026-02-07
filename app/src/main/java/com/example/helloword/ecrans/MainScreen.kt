@@ -1,5 +1,8 @@
 package com.example.helloword.ecrans
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -24,48 +27,70 @@ import com.example.helloword.model.Pc
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
-    val list : ArrayList<Pc> = arrayListOf(Pc(2.0,"hp"),Pc(4.5,"dell"),Pc(1.0,"mac"),Pc(2.0,"pc"))
+    val list: ArrayList<Pc> =
+        arrayListOf(Pc(2.0, "hp"), Pc(4.5, "dell"), Pc(1.0, "mac"), Pc(2.0, "pc"))
     Scaffold(
         topBar = { myTopBar() },
         floatingActionButton = {
-            FloatingActionButton(onClick = {  }) {
+            FloatingActionButton(onClick = { }) {
                 Icon(Icons.Default.Add, contentDescription = "Ajouter")
             }
         },
         bottomBar = {
-            BottomAppBar {  }
+            BottomAppBar { }
         }
     ) { innerPadding ->
-        LoginScreen(Modifier.padding(innerPadding), rememberNavController())
+        Box(modifier = Modifier.padding(innerPadding)) {
+            val controller = rememberNavController()
+            var user = "username"
+            NavHost(
+                navController = controller,
+                startDestination = "login"
+            ) {
+                composable("displayProducts") {
+                    SimpleProductScreen(controller)
+                }
+                composable("displayProduct/{id}") { backStackEntry ->
+                    val id = backStackEntry.arguments?.getString("id")!!.toInt()
+                    ProductScreen(controller, id)
+                }
+                composable("card") {
+                    myCardImage(controller)
+                }
+                composable("login") {
+                    LoginScreen(
+                        modifier = Modifier,
+                        controller = controller
+                    )
+                }
+                composable("loginmodification/{username}/{password}") { backStackEntry ->
+                    val username = backStackEntry.arguments?.getString("username") ?: "valeur"
+                    val password = backStackEntry.arguments?.getString("password") ?: "valeur"
+                    LoginModification(
+                        modifier = Modifier,
+                        controller = controller,
+                        username,
+                        password
+                    )
+                }
 
+                composable(
+                    "createaccount",
+                    enterTransition = {
+                        slideIntoContainer(
+                            towards = AnimatedContentTransitionScope.SlideDirection.Up,
+                            animationSpec = tween(700)
+                        )
+                    }
+                ) {
+
+                    CreateAcount(modifier = Modifier, controller = controller)
+                }
+
+            }
         }
     }
-/*
-val navController = rememberNavController()
-        NavHost(
-            navController = navController,
-            startDestination = "accueil"
-        ) {
-            composable("accueil") {
-                EcranAccueil(
-                    onAllerAuxDetails = { navController.navigate("dashboard") },
-                    modifier = Modifier.padding(innerPadding)
-                )
-            }
-            composable("dashboard") {
-                EcranDashboard(
-                    onRetourAllerVersAcceuil = { navController.navigate("accueil") },
-                    modifier = Modifier.padding(innerPadding)
-                )
-            }
-            composable("details") {
-                EcranDetails(
-                    onRetour = { navController.popBackStack() },
-                    modifier = Modifier.padding(innerPadding)
-                )
-            }
-        }
- */
+}
 @Composable
 fun EcranAccueil(onAllerAuxDetails: () -> Unit,modifier : Modifier) {
     Column(modifier = modifier) {

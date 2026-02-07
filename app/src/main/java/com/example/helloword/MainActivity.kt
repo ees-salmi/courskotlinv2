@@ -14,6 +14,11 @@ import android.widget.Toast
 import androidx.compose.runtime.setValue
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -66,6 +71,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -76,328 +83,348 @@ import com.example.helloword.comman.DrawEmoji
 import com.example.helloword.components.*
 import com.example.helloword.components.myTopBar
 import com.example.helloword.ecrans.CardAvecImage
+import com.example.helloword.ecrans.CreateAcount
 import com.example.helloword.ecrans.FormulaireXML
 import com.example.helloword.ecrans.MainScreen
-import com.example.helloword.ecrans.LoginOut
+import com.example.helloword.ecrans.CreateAccount
+import com.example.helloword.ecrans.DisplayData
+import com.example.helloword.ecrans.LoginModification
 import com.example.helloword.ecrans.LoginScreen
+import com.example.helloword.ecrans.ProductScreen
+import com.example.helloword.ecrans.SimpleProductScreen
+import com.example.helloword.ecrans.UserListScreen
+import com.example.helloword.ecrans.myCardImage
+import com.example.helloword.interfaces.SimpleApi
 import com.example.helloword.model.Pc
 import com.example.helloword.model.Personne
 import com.example.helloword.model.Stagiaire
 import kotlinx.serialization.Serializable
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import com.example.helloword.viewmodels.viewModels
 
 
 class MainActivity : ComponentActivity() {
-    object routes{
+    /*object routes {
         val route1 = "ecran1"
         val route2 = "ecran2"
         val route3 = "ecran3"
-    }
+    }*/
+
     @Serializable
     data class RouteEcran3(val username: String)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent{
-            val controller = rememberNavController()
-            var user = "default"
-           NavHost(
-                navController = controller,
-                startDestination = routes.route1
-           ){
-               composable("login") {
-                   LoginScreen(
-                       modifier = Modifier,
-                       controller = controller
-                   )
-               }
-               composable("ecran2") {
-                   Ecran2(controller)
-               }
-               composable("ecran3/{username}") {
-                   /*
-                   composable<RouteEcran3> { backStackEntry ->
-        // Extraction automatique et typée
-        val destination = backStackEntry.toRoute<RouteEcran3>()
-        Ecran3(controller, username = destination.username)
-                    */
-                   backStackEntry ->
-                   val user = backStackEntry.arguments?.getString("username") ?: "valeur"
-                   Ecran3(controller, username = user)
-               }
-           }
+        setContent {
+            MainScreen()
         }
     }
 
-}
-
-@Composable
-fun Ecran1(controller: NavHostController){
-    Column( modifier = Modifier
-        .fillMaxSize()
-        .padding(20.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp),
-        horizontalAlignment = Alignment.CenterHorizontally){
-        Text("vous etes dans premier ecran")
-        OutlinedButton(onClick = {controller.navigate("ecran2")}) {
-            Text("aller au deuxieme")
-        }
-    }
-
-}
-@Composable
-fun Ecran2(controller: NavHostController){
-
-    val username = "oussama"
-    Column( modifier = Modifier
-        .fillMaxSize()
-        .padding(20.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp),
-        horizontalAlignment = Alignment.CenterHorizontally) {
-        Text("vous etes dans le deuxieme ecran")
-        OutlinedButton(onClick = { controller.navigate("ecran3/$username") }) {
-            Text("retour")
-        }
-    }
-}
-@Composable
-fun Ecran3(controller: NavHostController,username : String){
-    Column( modifier = Modifier
-        .fillMaxSize()
-        .padding(20.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp),
-        horizontalAlignment = Alignment.CenterHorizontally) {
-        Text("vous etes dans le troisieme ecran $username")
-        OutlinedButton(onClick = { controller.popBackStack() }) {
-            Text("retour")
-        }
-    }
-}
-
-@Composable
-fun Affichage(){
-    var x by remember { mutableStateOf(80) }
-    var color by remember { mutableStateOf( Color.Red)}
-    val traitement = {
-        if(color == Color.Red){
-            color = Color.Green
-        }
-        else if(color == Color.Green){
-            color = Color.Yellow
-        }
-        else{
-            color = Color.Red
+    @Composable
+    fun Ecran1(controller: NavHostController) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(20.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("vous etes dans premier ecran")
+            OutlinedButton(onClick = { controller.navigate("ecran2") }) {
+                Text("aller au deuxieme")
+            }
         }
 
     }
-    Text("la valeur de x = $x", fontSize = 20.sp,modifier = Modifier.padding(80.dp).background(color))
-    Button(
-        onClick = traitement,
 
-        content = {Text("clicker")},
-        modifier = Modifier.padding(120.dp)
-    )
-}
-@Composable
-fun AffichageList(){
-    var listStg : ArrayList<String> = arrayListOf()
-    listStg.add("amine")
-    listStg.add("yassine")
-    listStg.add("marwa")
-    listStg.add("tarik")
+    @Composable
+    fun Ecran2(controller: NavHostController) {
 
-    Canvas(modifier = Modifier.size(200.dp)) {
+        val username = "oussama"
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(20.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("vous etes dans le deuxieme ecran")
+            OutlinedButton(onClick = { controller.navigate("ecran3/$username") }) {
+                Text("retour")
+            }
+        }
+    }
 
-        drawArc(
-            color = Color.Black,
-            startAngle = 0f,
-            sweepAngle = 180f,
-            useCenter = false,
-            topLeft = Offset(40f, 90f),
-            size = Size(120f, 60f),
-            style = Stroke(width = 6f)
+    @Composable
+    fun Ecran3(controller: NavHostController, username: String) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(20.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("vous etes dans le troisieme ecran $username")
+            OutlinedButton(onClick = { controller.navigate("rime") }) {
+                Text("aller ecran 4")
+            }
+        }
+    }
+
+    @Composable
+    fun Ecran4() {
+        Text("rime screen")
+    }
+
+    @Composable
+    fun Affichage() {
+        var x by remember { mutableStateOf(80) }
+        var color by remember { mutableStateOf(Color.Red) }
+        val traitement = {
+            if (color == Color.Red) {
+                color = Color.Green
+            } else if (color == Color.Green) {
+                color = Color.Yellow
+            } else {
+                color = Color.Red
+            }
+
+        }
+        Text(
+            "la valeur de x = $x",
+            fontSize = 20.sp,
+            modifier = Modifier.padding(80.dp).background(color)
+        )
+        Button(
+            onClick = traitement,
+
+            content = { Text("clicker") },
+            modifier = Modifier.padding(120.dp)
         )
     }
-}
 
+    @Composable
+    fun AffichageList() {
+        var listStg: ArrayList<String> = arrayListOf()
+        listStg.add("amine")
+        listStg.add("yassine")
+        listStg.add("marwa")
+        listStg.add("tarik")
 
-@Composable
-fun AffichageConditionne(){
-    val a = 4
-    val b = 6
-    if(a > b){
-        Text("Bonjour", fontSize = 24.sp, modifier = Modifier.padding(100.dp))
-    }
-    else{
-        Text("Affichage", fontSize = 24.sp, modifier = Modifier.padding(100.dp))
-    }
-    
-    val list: ArrayList<String> = arrayListOf()
-    list.add("amine")
-    list.add("ibrahim")
-    list.add("oussama")
-    Column {
-        list.forEach { elm -> Text(elm,Modifier.padding(20.dp)) }
-    }
+        Canvas(modifier = Modifier.size(200.dp)) {
 
-    val liststg: ArrayList<Stagiaire> = arrayListOf()
-    val stg1 = Stagiaire("123","fakhir")
-    val stg2 = Stagiaire("125","rmoul")
-    val stg3 = Stagiaire("124","khyi")
-    liststg.add(stg1)
-    liststg.add(stg2)
-    liststg.add(stg3)
-
-    Column(modifier = Modifier.padding(0.dp,140.dp)) {
-        Row {
-            Text("Code", fontSize = 20.sp, modifier = Modifier.padding(20.dp, 0.dp))
-            Text("Nom", fontSize = 20.sp)
+            drawArc(
+                color = Color.Black,
+                startAngle = 0f,
+                sweepAngle = 180f,
+                useCenter = false,
+                topLeft = Offset(40f, 90f),
+                size = Size(120f, 60f),
+                style = Stroke(width = 6f)
+            )
         }
-        liststg.forEach { stg ->
-            Row(Modifier.padding(20.dp)) { Text(stg.code,Modifier.padding(20.dp))
-                  Text(stg.nom,Modifier.padding(20.dp))}
+    }
+
+
+    @Composable
+    fun AffichageConditionne() {
+        val a = 4
+        val b = 6
+        if (a > b) {
+            Text("Bonjour", fontSize = 24.sp, modifier = Modifier.padding(100.dp))
+        } else {
+            Text("Affichage", fontSize = 24.sp, modifier = Modifier.padding(100.dp))
         }
 
+        val list: ArrayList<String> = arrayListOf()
+        list.add("amine")
+        list.add("ibrahim")
+        list.add("oussama")
+        Column {
+            list.forEach { elm -> Text(elm, Modifier.padding(20.dp)) }
+        }
+
+        val liststg: ArrayList<Stagiaire> = arrayListOf()
+        val stg1 = Stagiaire("123", "fakhir")
+        val stg2 = Stagiaire("125", "rmoul")
+        val stg3 = Stagiaire("124", "khyi")
+        liststg.add(stg1)
+        liststg.add(stg2)
+        liststg.add(stg3)
+
+        Column(modifier = Modifier.padding(0.dp, 140.dp)) {
+            Row {
+                Text("Code", fontSize = 20.sp, modifier = Modifier.padding(20.dp, 0.dp))
+                Text("Nom", fontSize = 20.sp)
+            }
+            liststg.forEach { stg ->
+                Row(Modifier.padding(20.dp)) {
+                    Text(stg.code, Modifier.padding(20.dp))
+                    Text(stg.nom, Modifier.padding(20.dp))
+                }
+            }
+
+
+        }
+
 
     }
 
-
-
-}
-// 9 present 2512
-@Composable
-fun
-        myText(text : String){
-    Text(
-        text = text,
-        color = Color.Green,
-        fontSize = 28.sp,
-        fontFamily = FontFamily.SansSerif,
-        fontWeight = FontWeight.Bold,
-        modifier = Modifier
-            .padding(all = 20.dp)
-            .background(Color.DarkGray)
-            .padding(20.dp)
-    )
-}
-@Composable
-fun text(){Text("clicker ici")}
-@Composable
-fun myButton(){
-    FloatingActionButton(
-        onClick = lambda,
-        content = { Text("clicker ici") },
-        containerColor = Color.DarkGray,
-        modifier = Modifier.padding(30.dp)
-        //.size(80.dp,30.dp)
-    )
-}
-
-@Composable
-fun myButtonText(nom:String,age:Int){
-    Text(
-        text="clcik here",
-        color = Color.Green,
-        fontSize = 18.sp,
-        fontFamily = FontFamily.SansSerif,
-        fontWeight = FontWeight.Thin,
-        modifier = Modifier
-            .padding(all = 20.dp)
-            .background(Color.DarkGray)
-            .padding(20.dp)
-    )
-}
-val lambda = { -> print("hello")}
-fun prin(){
-    print("bonjour")
-}
-
-@Composable
-fun MyInput(text:String,value:String,onChangeValue : (String) -> Unit ) {
-
-    TextField(
-        value = value,
-        onValueChange = onChangeValue,
-        label = { Text("Tapez votre $text") },
-        placeholder = {Text("donner votre $text")}
-    )
-
-}
-
-@Composable
-fun myInput(input:String, onChangeValue: (String) -> Unit){
-    TextField(
-        value = input,
-        onValueChange = onChangeValue,
-        label = { Text("nom") },
-        placeholder = {Text("donner votre nom")},
-        modifier= Modifier
-            .padding(5.dp)
-            .fillMaxWidth()
-    )
-}
-@Composable
-fun myBox(modifier: Modifier = Modifier){
-    Box(
-        modifier = Modifier.padding(20.dp)
-
-    ){
-
+    // 9 present 2512
+    @Composable
+    fun
+            myText(text: String) {
+        Text(
+            text = text,
+            color = Color.Green,
+            fontSize = 28.sp,
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .padding(all = 20.dp)
+                .background(Color.DarkGray)
+                .padding(20.dp)
+        )
     }
-}
-@Composable
-fun MyBoxes(modifier: Modifier){
-    Row(modifier = Modifier.padding(10.dp)){
-        Box(modifier = Modifier
-            .background(Color.Red)
-            .border(3.dp, Color.Blue)
-            .weight(1f)
-            .height(200.dp) )
-        Box(modifier = Modifier
-            .background(Color.Cyan)
-            .border(3.dp, Color.Blue)
-            .weight(2f)
-            .height(200.dp))
-        Box(modifier = Modifier
-            .background(Color.Blue)
-            .border(3.dp, Color.Blue)
-            .weight(3f)
-            .height(200.dp))
-    }
-}
-@Composable
-fun myColumn(modifier : Modifier = Modifier){
-    var noms  = ""
-    var nom by remember { mutableStateOf("") }
-    var prenom by remember { mutableStateOf("") }
-    var age by remember { mutableStateOf("") }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(20.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
 
-        MyInput("nom",nom,{ nom = it })
-        MyInput("prenom", prenom, {prenom = it})
-        MyInput("age", age, {age = it})
-        myButtonText(nom,age.toInt())
+    @Composable
+    fun text() {
+        Text("clicker ici")
     }
-}
-@Composable
-fun MonTitre(){
-    Row() {
-        Text("Commandes",
-            fontWeight = FontWeight.SemiBold,
-            fontFamily = FontFamily.Serif,
-            fontSize = 24.sp
+
+    @Composable
+    fun myButton() {
+        FloatingActionButton(
+            onClick = lambda,
+            content = { Text("clicker ici") },
+            containerColor = Color.DarkGray,
+            modifier = Modifier.padding(30.dp)
+            //.size(80.dp,30.dp)
+        )
+    }
+
+    @Composable
+    fun myButtonText(nom: String, age: Int) {
+        Text(
+            text = "clcik here",
+            color = Color.Green,
+            fontSize = 18.sp,
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.Thin,
+            modifier = Modifier
+                .padding(all = 20.dp)
+                .background(Color.DarkGray)
+                .padding(20.dp)
+        )
+    }
+
+    val lambda = { -> print("hello") }
+    fun prin() {
+        print("bonjour")
+    }
+
+    @Composable
+    fun MyInput(text: String, value: String, onChangeValue: (String) -> Unit) {
+
+        TextField(
+            value = value,
+            onValueChange = onChangeValue,
+            label = { Text("Tapez votre $text") },
+            placeholder = { Text("donner votre $text") }
         )
 
     }
 
-}
-@Composable
-fun MonIcon(){
-    Icon(Icons.Default.Menu, contentDescription = "menu")
+    @Composable
+    fun myInput(input: String, onChangeValue: (String) -> Unit) {
+        TextField(
+            value = input,
+            onValueChange = onChangeValue,
+            label = { Text("nom") },
+            placeholder = { Text("donner votre nom") },
+            modifier = Modifier
+                .padding(5.dp)
+                .fillMaxWidth()
+        )
+    }
+
+    @Composable
+    fun myBox(modifier: Modifier = Modifier) {
+        Box(
+            modifier = Modifier.padding(20.dp)
+
+        ) {
+
+        }
+    }
+
+    @Composable
+    fun MyBoxes(modifier: Modifier) {
+        Row(modifier = Modifier.padding(10.dp)) {
+            Box(
+                modifier = Modifier
+                    .background(Color.Red)
+                    .border(3.dp, Color.Blue)
+                    .weight(1f)
+                    .height(200.dp)
+            )
+            Box(
+                modifier = Modifier
+                    .background(Color.Cyan)
+                    .border(3.dp, Color.Blue)
+                    .weight(2f)
+                    .height(200.dp)
+            )
+            Box(
+                modifier = Modifier
+                    .background(Color.Blue)
+                    .border(3.dp, Color.Blue)
+                    .weight(3f)
+                    .height(200.dp)
+            )
+        }
+    }
+
+    @Composable
+    fun myColumn(modifier: Modifier = Modifier) {
+        var noms = ""
+        var nom by remember { mutableStateOf("") }
+        var prenom by remember { mutableStateOf("") }
+        var age by remember { mutableStateOf("") }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(20.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            MyInput("nom", nom, { nom = it })
+            MyInput("prenom", prenom, { prenom = it })
+            MyInput("age", age, { age = it })
+            myButtonText(nom, age.toInt())
+        }
+    }
+
+    @Composable
+    fun MonTitre() {
+        Row() {
+            Text(
+                "Commandes",
+                fontWeight = FontWeight.SemiBold,
+                fontFamily = FontFamily.Serif,
+                fontSize = 24.sp
+            )
+
+        }
+
+    }
+
+    @Composable
+    fun MonIcon() {
+        Icon(Icons.Default.Menu, contentDescription = "menu")
+    }
 }
 
 

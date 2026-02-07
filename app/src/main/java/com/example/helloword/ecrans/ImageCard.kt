@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -18,9 +19,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 
 @Composable
-fun myCardImage(){
+fun myCardImage(controller: NavHostController){
     ElevatedCard(
         modifier = Modifier.padding(16.dp).fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
@@ -29,6 +31,7 @@ fun myCardImage(){
             Text("Titre de la carte", style = MaterialTheme.typography.titleLarge)
             Spacer(modifier = Modifier.height(8.dp))
             Text("Voici une description du contenu de la carte en Jetpack Compose.")
+            Button({controller.navigate("login")} ) {Text("go to login")}
         }
     }
 }

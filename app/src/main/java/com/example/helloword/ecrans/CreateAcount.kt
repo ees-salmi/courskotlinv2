@@ -12,7 +12,7 @@ import androidx.navigation.NavHostController
 import com.example.helloword.R
 
 @Composable
-fun LoginOut(modifier: Modifier = Modifier, controller : NavHostController) {
+fun CreateAcount(modifier: Modifier = Modifier, controller : NavHostController) {
 
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }

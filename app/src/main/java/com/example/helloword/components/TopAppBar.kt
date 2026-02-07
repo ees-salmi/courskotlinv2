@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -25,25 +26,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.helloword.MonIcon
-import com.example.helloword.MonTitre
-import com.example.helloword.lambda
-
+import com.example.helloword.comman.Cart
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun myTopBar(){ TopAppBar(title = {MonTitre()}, navigationIcon = { MonIcon()},
+fun myTopBar(){ TopAppBar(title = {},
     colors = TopAppBarDefaults.topAppBarColors(
         containerColor = Color(255, 140, 0,100),
         titleContentColor = Color.Black
 
     ),
     actions = {
-        IconButton(onClick = { lambda }) {
-            Icon(
-                imageVector = Icons.Default.ExitToApp,
-                contentDescription = "Déconnexion"
-            )
+        Row {
+            CartBadge(Cart.nbrProduit)
+            //space
+            IconButton(onClick = {  }) {
+                Icon(
+                    imageVector = Icons.Default.ExitToApp,
+                    contentDescription = "Déconnexion"
+                )
+            }
         }
+
     })
 }
 @Composable

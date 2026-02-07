@@ -1,6 +1,6 @@
 package com.example.helloword.model
 
-import com.example.helloword.prin
+
 class SoldeNegtafiException(val m : String):Exception(m)
 class CompteBancaire(val numero : Int, var solde : Double){
     init {
@@ -33,6 +33,8 @@ fun main(){
     val list : MutableList<Bureaux> = mutableListOf()
     //val bur = Bureaux(100.5,20.0)
     Bureaux.afficherLong()
+    val nom = "ibrahim"
+    println(nom.getMiddleChar())
 
 
     list.add(Bureaux(100.5,20.0))
@@ -52,4 +54,8 @@ fun main(){
 
 
     print("continuite")
+}
+
+private fun String.getMiddleChar():Char {
+    return this[this.length / 2]
 }

@@ -17,16 +17,17 @@ import androidx.compose.ui.text.input.VisualTransformation
 
 
 @Composable
-fun MyTextField(text:String,value:String,onChangeValue : (String) -> Unit, modifier : Modifier = Modifier ) {
+fun MyTextField(text:String,value:String,onChangeValue : (String) -> Unit,isError : Boolean = false, modifier : Modifier = Modifier ) {
     var isVisible by remember { mutableStateOf(false) }
     val traitement = {isVisible = !isVisible}
     OutlinedTextField(
         value = value,
         onValueChange = onChangeValue,
         label = {Text(text)},
-        visualTransformation = if(isVisible) VisualTransformation.None else PasswordVisualTransformation() ,
+        //visualTransformation = if(isVisible) VisualTransformation.None else PasswordVisualTransformation() ,
         placeholder = {Text("donner votre $text")},
         modifier = modifier,
+        isError = isError,
         trailingIcon = { IconButton(onClick = {traitement})  { Icon(Icons.Rounded.Edit, "eye") }}
     )
 }
