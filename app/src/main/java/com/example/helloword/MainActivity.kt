@@ -1,24 +1,9 @@
 package com.example.helloword
 
 import android.os.Bundle
-import android.text.Editable
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ListView
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.TextView
-import android.widget.Toast
 import androidx.compose.runtime.setValue
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -31,29 +16,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ExitToApp
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -66,44 +36,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.example.helloword.comman.DrawEmoji
 //import com.example.helloword.comman.DrawRect
 //import com.example.helloword.components.MonText
 import com.example.helloword.components.*
-import com.example.helloword.components.myTopBar
-import com.example.helloword.ecrans.CardAvecImage
-import com.example.helloword.ecrans.CreateAcount
-import com.example.helloword.ecrans.FormulaireXML
 import com.example.helloword.ecrans.MainScreen
-import com.example.helloword.ecrans.CreateAccount
-import com.example.helloword.ecrans.DisplayData
-import com.example.helloword.ecrans.LoginModification
-import com.example.helloword.ecrans.LoginScreen
-import com.example.helloword.ecrans.ProductScreen
-import com.example.helloword.ecrans.SimpleProductScreen
-import com.example.helloword.ecrans.UserListScreen
-import com.example.helloword.ecrans.myCardImage
-import com.example.helloword.interfaces.SimpleApi
-import com.example.helloword.model.Pc
-import com.example.helloword.model.Personne
 import com.example.helloword.model.Stagiaire
 import kotlinx.serialization.Serializable
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import com.example.helloword.viewmodels.viewModels
 
-
+object NombreStg{
+    var nombre = mutableStateOf(0)
+    fun modifierNbr(){
+        nombre.value ++
+    }
+}
 class MainActivity : ComponentActivity() {
     /*object routes {
         val route1 = "ecran1"
@@ -118,6 +66,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MainScreen()
+
         }
     }
 

@@ -1,9 +1,12 @@
 package com.example.helloword.comman
 
+import androidx.compose.runtime.mutableStateOf
+
 
 object Cart{
-    var nbrProduit = 0
+    var nbrProduit = mutableStateOf(0)
     fun ajouterProduit(){
-        nbrProduit++
+        nbrProduit.value ++
     }
 }
+
