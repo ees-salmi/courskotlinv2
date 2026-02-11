@@ -22,10 +22,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.helloword.comman.Cart
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun myTopBar(){ TopAppBar(title = {},
+fun myTopBar(controller : NavHostController){ TopAppBar(title = {},
     colors = TopAppBarDefaults.topAppBarColors(
         containerColor = Color(255, 140, 0,100),
         titleContentColor = Color.Black
@@ -33,7 +34,7 @@ fun myTopBar(){ TopAppBar(title = {},
     ),
     actions = {
         Row {
-            CartBadge(Cart.nbrProduit.value)
+            CartBadge(Cart.list.size,controller)
             //space
             IconButton(onClick = {  }) {
                 Icon(

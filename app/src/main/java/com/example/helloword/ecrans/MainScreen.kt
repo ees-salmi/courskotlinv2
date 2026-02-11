@@ -21,16 +21,19 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.helloword.comman.Cart
 import com.example.helloword.components.myTopBar
 import com.example.helloword.model.Pc
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
+    val controller = rememberNavController()
+
     val list: ArrayList<Pc> =
         arrayListOf(Pc(2.0, "hp"), Pc(4.5, "dell"), Pc(1.0, "mac"), Pc(2.0, "pc"))
     Scaffold(
-        topBar = { myTopBar() },
+        topBar = { myTopBar(controller) },
         floatingActionButton = {
             FloatingActionButton(onClick = { }) {
                 Icon(Icons.Default.Add, contentDescription = "Ajouter")
@@ -41,7 +44,6 @@ fun MainScreen() {
         }
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
-            val controller = rememberNavController()
             var user = "username"
             NavHost(
                 navController = controller,
@@ -56,6 +58,9 @@ fun MainScreen() {
                 }
                 composable("card") {
                     myCardImage(controller)
+                }
+                composable("cartitems") {
+                    CartItems(Cart.list ,controller)
                 }
                 composable("login") {
                     LoginScreen(

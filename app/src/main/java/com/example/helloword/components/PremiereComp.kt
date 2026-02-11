@@ -14,11 +14,11 @@ import androidx.compose.ui.unit.dp
 import com.example.helloword.NombreStg
 
 @Composable
-fun PremiereComp(NombreStg: NombreStg) {
-    //var nombre by remember { mutableStateOf(0) }
-    Column(Modifier.padding(top=40.dp)) {
-        Text("le nombre dans la premiere com est = ${NombreStg.nombre.value}")
-        Button(onClick = {NombreStg.modifierNbr()}) { Text("Incrementer")}
+fun PremiereComp(nombreStg : NombreStg){
+
+    Column {
+        Text("le nombre dans premiere coms est ${nombreStg.nombre.value}")
+        Button(onClick = {nombreStg.modifierNbr()}){Text("augmenter")}
     }
 
 }

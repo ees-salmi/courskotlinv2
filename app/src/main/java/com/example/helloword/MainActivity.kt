@@ -39,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.helloword.NombreStg.nombre
 //import com.example.helloword.comman.DrawRect
 //import com.example.helloword.components.MonText
 import com.example.helloword.components.*
@@ -46,11 +47,13 @@ import com.example.helloword.ecrans.MainScreen
 import com.example.helloword.model.Stagiaire
 import kotlinx.serialization.Serializable
 
+//singleton
+
 object NombreStg{
     var nombre = mutableStateOf(0)
-    fun modifierNbr(){
-        nombre.value ++
-    }
+ fun modifierNbr() {
+     nombre.value++
+ }
 }
 class MainActivity : ComponentActivity() {
     /*object routes {
@@ -66,7 +69,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MainScreen()
-
         }
     }
 
