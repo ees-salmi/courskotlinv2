@@ -15,6 +15,11 @@ object Cart{
         if( product == null) return
         else list.add(product)
     }
+    fun supprimeProduit(id : Int){
+        list.removeIf { it.id == id }
+    }
+
+
 
 }
 
