@@ -25,8 +25,9 @@ import com.example.helloword.model.Product
 
 @Composable
 fun CartItems(produits : List<Product>,controller : NavHostController){
-    val set = produits.toSet()
-    val listp = set.toList()
+
+    val list = Cart.listProducts.keys
+    val listp = list.toList()
     /*val setdesproduits : MutableSet<Product> = mutableSetOf()
 
     for(elm in produits){
@@ -56,7 +57,8 @@ fun CartItems(produits : List<Product>,controller : NavHostController){
                         Text(text = product.title, style = MaterialTheme.typography.titleMedium, maxLines = 1)
                         Text(text = "${product.price} dh", style = MaterialTheme.typography.bodyMedium)
                         Text(text = "${product.description} dh", style = MaterialTheme.typography.bodySmall)
-                        Button(onClick = {Cart.supprimeProduit(product.id)}) { Text("supprimer")}
+
+                        Button(onClick = {Cart.supprimeProduitfromMap(product)}) { Text("supprimer")}
                     }
                 }
             }

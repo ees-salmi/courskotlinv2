@@ -34,7 +34,7 @@ fun myTopBar(controller : NavHostController){ TopAppBar(title = {},
     ),
     actions = {
         Row {
-            CartBadge(Cart.list.size,controller)
+            CartBadge(Cart.listProducts.size,controller)
             //space
             IconButton(onClick = {  }) {
                 Icon(
