@@ -1,5 +1,11 @@
 package com.example.helloword.ecrans
 
+import android.annotation.SuppressLint
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.ComponentName
+import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,31 +23,42 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.example.helloword.background.MonTravail
 import com.example.helloword.comman.Cart
 import com.example.helloword.components.Quantity
-import com.example.helloword.model.Product
-
+@SuppressLint("MissingPermission")
 @Composable
-fun CartItems(produits : List<Product>,controller : NavHostController){
+fun JobSchedulerScreen() {
+    val context = LocalContext.current
 
-    val list = Cart.listProducts.keys
-    val listp = list.toList()
-    /*val setdesproduits : MutableSet<Product> = mutableSetOf()
+    Button(onClick =  {
+        val componentName = ComponentName(context, MonTravail::class.java)
 
-    for(elm in produits){
-        setdesproduits.add(elm)
+        val info = JobInfo.Builder(123, componentName) // Uniquement en Wi-Fi
+            .setPersisted(true) // Garder le job même après redémarrage du tel
+            .setPeriodic(15*60*1000) // setMinimumLatency(1000) // Toutes les 1 minutes (minimum imposé)
+            .build()
+            //.setMinimumLatency(1000)
+
+        val scheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+        val resultCode = scheduler.schedule(info)
+
+        if (resultCode == JobScheduler.RESULT_SUCCESS) {
+            Log.d("JobScheduler", "Job planifié avec succès !")
+        }
+    }, modifier = Modifier.padding(40.dp)) {
+        Text("Planifier la tâche")
     }
-
-    val listp : MutableList<Product> = mutableListOf()
-    for(elm in setdesproduits){
-        listp.add(elm)
-    }*/
-
+}
+@Composable
+fun BackgroundProducts(controller : NavHostController) {
+    JobSchedulerScreen()
     LazyColumn {
-        items(listp) { product ->
+        items(Cart.listBackground) { product ->
             Card(
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
                 elevation = CardDefaults.cardElevation(4.dp),
@@ -60,7 +77,7 @@ fun CartItems(produits : List<Product>,controller : NavHostController){
                         Text(text = "${product.description} dh", style = MaterialTheme.typography.bodySmall)
                         Text(text = "quantity = ${Cart.listProducts.get(product)} ", style = MaterialTheme.typography.bodySmall)
                         Row(){Quantity(Cart.listProducts.get(product).toString())
-                        Button(onClick = {Cart.supprimeProduitfromMap(product)}) { Text("supprimer")}}
+                            Button(onClick = {Cart.supprimeProduitfromMap(product)}) { Text("supprimer")}}
                     }
                 }
             }

@@ -8,6 +8,7 @@ import com.example.helloword.model.Product
 
 object Cart{
     var list = mutableStateListOf<Product>()
+    var listBackground = mutableStateListOf<Product>()
     var listProducts = mutableStateMapOf<Product,Int>()
     var productMap : HashMap<Product,Int> = hashMapOf()
     var nbrProduit = mutableStateOf(0)

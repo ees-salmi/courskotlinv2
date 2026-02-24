@@ -4,7 +4,6 @@ import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -17,7 +16,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -35,7 +33,7 @@ fun MainScreen() {
     Scaffold(
         topBar = { myTopBar(controller) },
         floatingActionButton = {
-            FloatingActionButton(onClick = { }) {
+            FloatingActionButton(onClick = { controller.navigate("backgroundProducts")}) {
                 Icon(Icons.Default.Add, contentDescription = "Ajouter")
             }
         },
@@ -49,6 +47,9 @@ fun MainScreen() {
                 navController = controller,
                 startDestination = "login"
             ) {
+                composable("backgroundProducts") {
+                    BackgroundProducts(controller)
+                }
                 composable("displayProducts") {
                     SimpleProductScreen(controller)
                 }

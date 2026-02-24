@@ -1,7 +1,8 @@
 package com.example.helloword
 
+//import com.example.helloword.comman.DrawRect
+//import com.example.helloword.components.MonText
 import android.os.Bundle
-import androidx.compose.runtime.setValue
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Canvas
@@ -28,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -39,10 +41,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.helloword.NombreStg.nombre
-//import com.example.helloword.comman.DrawRect
-//import com.example.helloword.components.MonText
-import com.example.helloword.components.*
 import com.example.helloword.ecrans.MainScreen
 import com.example.helloword.model.Stagiaire
 import kotlinx.serialization.Serializable
@@ -56,11 +54,7 @@ object NombreStg{
  }
 }
 class MainActivity : ComponentActivity() {
-    /*object routes {
-        val route1 = "ecran1"
-        val route2 = "ecran2"
-        val route3 = "ecran3"
-    }*/
+
 
     @Serializable
     data class RouteEcran3(val username: String)
