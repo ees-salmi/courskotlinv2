@@ -30,4 +30,34 @@ class SalleUnitTest {
         assertEquals("salle6",c1.getNomSalle())
     }
 
+    @Test
+    fun test_get_first_element(){
+        val pc1 = Pc(2000.0,"HP")
+        val pc2 = Pc(4000.0,"DELL")
+        var list = arrayListOf(pc1,pc2)
+
+        var c1 = Classe(6,"salle6",list)
+
+        assertEquals(pc1,c1.getFirstElement())
+    }
+    @Test
+    fun test_get_last_element(){
+        val pc1 = Pc(2000.0,"HP")
+        val pc2 = Pc(4000.0,"DELL")
+        var list = arrayListOf(pc1,pc2)
+
+        var c1 = Classe(6,"salle6",list)
+
+        assertEquals(pc2,c1.getLastElement())
+    }
+    // test espresso
+    @Test
+    fun test_get_last_elementv2(){
+        var list : ArrayList<Pc> = arrayListOf()
+        val pc1 = Pc(2000.0,"HP")
+        var c1 = Classe(6,"salle6",list)
+
+        assertEquals(null,c1.getLastElement())
+    }
+
 }

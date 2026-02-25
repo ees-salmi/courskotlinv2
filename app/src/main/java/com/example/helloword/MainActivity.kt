@@ -4,7 +4,6 @@ package com.example.helloword
 //import com.example.helloword.components.MonText
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -41,7 +40,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.helloword.ecrans.MainScreen
 import com.example.helloword.model.Stagiaire
 import kotlinx.serialization.Serializable
 
@@ -59,11 +57,10 @@ class MainActivity : ComponentActivity() {
     @Serializable
     data class RouteEcran3(val username: String)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+        override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            MainScreen()
-        }
+        setContentView(R.layout.activity_main)
+
     }
 
     @Composable
