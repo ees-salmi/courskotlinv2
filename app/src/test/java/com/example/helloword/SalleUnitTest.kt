@@ -3,6 +3,7 @@ package com.example.helloword
 import com.example.helloword.model.Classe
 import com.example.helloword.model.Pc
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThrows
 import org.junit.Test
 
 class SalleUnitTest {
@@ -59,5 +60,23 @@ class SalleUnitTest {
 
         assertEquals(null,c1.getLastElement())
     }
+    fun souChaine(str : String):String {
+        return str.substring(0,6)
+    }
+    @Test
+    fun testSubstring() {
+        assertEquals("grp202",souChaine("grp202AM"))
+    }
+    @Test
+    fun testNumber() {
+        val list = listOf(8,4,0,4)
+        assertEquals(4,list.average())
+    }
+
+    fun testthrows() {
+        val list = listOf(8,4,0,4)
+        assertThrows(IndexOutOfBoundsException::class.java ){list[6]}
+    }
+
 
 }

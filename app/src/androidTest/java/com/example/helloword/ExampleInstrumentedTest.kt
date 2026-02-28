@@ -31,14 +31,10 @@ class ExampleInstrumentedTest {
         }
         @Test
         fun click_button_test() {
-
             onView(withId(R.id.edittexttest))
                 .perform(typeText("Bonjour saad"))
-
             onView(withId(R.id.btntest))
                 .perform(click())
-
-            // 3. Vérifier que le TextView affiche le texte attendu
             onView(withId(R.id.textviewtest))
                 .check(matches(withText("Bonjour saad")))
         }

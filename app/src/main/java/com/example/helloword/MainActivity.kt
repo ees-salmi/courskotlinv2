@@ -4,6 +4,7 @@ package com.example.helloword
 //import com.example.helloword.components.MonText
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -41,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.helloword.model.Stagiaire
+import com.example.helloword.viewmodels.AfficherNumber
 import kotlinx.serialization.Serializable
 
 //singleton
@@ -59,7 +61,8 @@ class MainActivity : ComponentActivity() {
 
         override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        //setContentView(R.layout.activity_main)
+            setContent { AfficherNumber() }
 
     }
 
