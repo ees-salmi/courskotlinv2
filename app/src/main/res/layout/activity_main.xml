@@ -7,31 +7,52 @@
     android:orientation="horizontal"
     android:weightSum="3"
     android:padding="16dp">
+
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_width="371dp"
+        android:layout_height="153dp"
+        android:layout_marginBottom="8dp"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:weightSum="3"
-        android:layout_marginBottom="8dp">
+        android:weightSum="3">
+
         <EditText
             android:id="@+id/edittexttest"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
+
         <Button
             android:id="@+id/btntest"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="241dp"
+            android:layout_height="38dp"
             android:layout_weight="3"
             android:text="btn1" />
 
         <TextView
             android:id="@+id/textviewtest"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="230dp"
+        android:layout_weight="1"
+        android:text="CheckBox" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" >
+
+        <RadioButton
+            android:id="@+id/radioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="RadioButton" />
+    </RadioGroup>
 
 
 </LinearLayout>

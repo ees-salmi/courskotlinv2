@@ -38,6 +38,20 @@ class ExampleInstrumentedTest {
             onView(withId(R.id.textviewtest))
                 .check(matches(withText("Bonjour saad")))
         }
+    // créer deux classes en dart vehicule et voiture qui hérite de vehicule
+    // avec une méthode démarer() qui affiche que la voiture est démarré
 
 
 }
+class GestionStock {
+    var quantite: Int = 50
+
+    fun retirerArticles(nombre: Int): Int {
+        if (nombre > quantite) {
+            throw Exception("Stock insuffisant")
+        }
+        quantite -= nombre
+        return quantite
+    }
+}
+

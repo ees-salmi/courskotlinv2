@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,7 +22,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 // exerice change le logique métier pour afficher la liste des produits fakeapi
-class NumberViewLodel : ViewModel(){
+class NombreViewLodel : ViewModel(){
     //model
     private var _number =  MutableStateFlow(1) //géeer l etat interne
     val number : StateFlow<Int> = _number
@@ -29,10 +30,8 @@ class NumberViewLodel : ViewModel(){
         _number.value  += 1
     }
 }
-
-
 @Composable
-fun AfficherNumber(numberViewModel: NumberViewLodel = viewModel()) {
+fun AfficherNumber(numberViewModel: NombreViewLodel = viewModel()) {
     // collectAsStateWithLifecycle est préférable pour économiser les ressources
     val number by numberViewModel.number.collectAsState()
     Column(
@@ -41,8 +40,26 @@ fun AfficherNumber(numberViewModel: NumberViewLodel = viewModel()) {
         modifier = Modifier.fillMaxSize()) {
         Text("le numero est = $number")
         Button(onClick = {numberViewModel.augmenter()}) { Text("augmenter") }
-     }
+    }
 }
+
+@Composable
+fun AfficherNombre(){
+    var numero by remember { mutableStateOf(5)}
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxSize()
+    )
+    {
+        Text("le numero est = $numero")
+        Button(onClick = {numero = numero + 1}) { Text("augmenter") }
+    }
+
+}
+
+
+
 class viewModels(private val api: SimpleApi) : ViewModel() {
     //Survie à la rotation viewModelScope Séparation des préoccupations
     var listeProducts by mutableStateOf<List<Product>>(emptyList())
@@ -55,10 +72,9 @@ class viewModels(private val api: SimpleApi) : ViewModel() {
                 val resultat = api.getProducts()
                 listeProducts = resultat
             } catch (e: Exception) {
-                listeProducts = listOf(Product(1,"hello",23.3,"hello","bonjour","image"))
-                println("Erreur réseau : ${e.message}")
                 android.util.Log.e("${e.message}", "Erreur réseau", e)
             } finally {
+                // partie exception toujours éxécuter
                 isLoading = false
             }
         }

@@ -5,6 +5,7 @@
         <item name="android:textStyle">bold</item>
         <item name="android:background">#2196F3</item>
         <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">32sp</item>
     </style>
     <style name="buttonStyle2">
         <item name="android:padding">20dp</item>
