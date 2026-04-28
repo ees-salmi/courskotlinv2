@@ -3,7 +3,7 @@ package com.example.helloword.tachesarriereplan
 import android.app.job.JobParameters
 import android.app.job.JobService
 import android.util.Log
-
+// date a ajouter
 class TacheaRealise : JobService() {
     override fun onStartJob(params: JobParameters?): Boolean {
         //synchronisé entre les données de l application et le serveur du bd
